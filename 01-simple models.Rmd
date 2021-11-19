@@ -26,6 +26,7 @@ library(pbkrtest)
 library(MuMIn)
 library(MCMCglmm)
 library(ggplot2)
+source("multiplot.R")
 
 #loading data
 data<-read.table("data/data.txt", header = T)
@@ -34,7 +35,40 @@ attach(data)
 
 Let's do some nice ggplots to examine our data before fitting fancy models:
 
+```{r plots_oc, echo=FALSE, fig.height=12, fig.width=10, message=FALSE, warning=FALSE}
+a4<-ggplot(data=data, aes(x=p_ratio, y=PLAND)) +
+  geom_smooth(size=1, span = 2, method = "glm", color = "darkblue") +
+  labs(x="D. gliroides occurrence", y="Forest %") +
+  ggtitle("PLAND") +
+  theme_classic() +
+  My_Theme
+a6<-ggplot(data=data, aes(x=p_ratio, y=NP)) +
+  geom_smooth(size=1, span = 2, method = "glm", color = "blueviolet") +
+  labs(x="D. gliroides occurrence", y="Number of patches") +
+  ggtitle("NP") +
+  theme_classic() +
+  My_Theme
+b4<-ggplot(data=data, aes(x=p_ratio, y=contig_wg)) +
+  geom_smooth(size=1, span = 2, method = "glm", color = "firebrick1") +
+  labs(x="D. gliroides occurrence", y="Contiguity Index (wg mean)") +
+  ggtitle("CONTIG (wg mean)") +
+  theme_classic() +
+  My_Theme
+c8<-ggplot(data=data, aes(x=p_ratio, y=ENN_wg)) +
+  geom_smooth(size=1, span = 2, method = "glm", color = "darkorange1") +
+  labs(x="D. gliroides occurrence", y="ENN (wg mean)") +
+  ggtitle("ENN (wg mean)") +
+  theme_classic() +
+  My_Theme
+d2<-ggplot(data=data, aes(x=p_ratio, y=CONNECT_250m)) +
+  geom_smooth(size=1, span = 2, method = "glm", color = "chartreuse3") +
+  labs(x="D. gliroides occurrence", y="Connectance Index") +
+  ggtitle("CONNECT 250m") +
+  theme_classic() +
+  My_Theme
 
+multiplot(a4, b4, d2, a6, c8, cols=2)
+```
 
 ## Models
 
