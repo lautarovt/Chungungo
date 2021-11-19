@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 Here we will explore some anthropogenic variables as potential drivers os abundance change on this species
 
-```{r data}
+```{r data, include=FALSE}
 #loading libraries
 library(mgcv)
 library(lme4)
@@ -31,15 +31,28 @@ source("multiplot.R")
 #loading data
 data<-read.table("data/data.txt", header = T)
 attach(data)
+
+#ggplot grooming
+My_Theme = theme(
+  axis.title.x = element_text(size = 18,face="bold"),
+  axis.text.x = element_text(size = 16),
+  axis.text.y = element_text(size = 16),
+  axis.title.y = element_text(size = 18,face="bold"),
+  legend.text = element_text(size = 14),
+  legend.title = element_text(size = 14,face="bold"),
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.background = element_rect(fill = "white"),
+  plot.title = element_text(size = 24,face = "bold", hjust=0.5))
 ```
 
 Let's do some nice ggplots to examine our data before fitting fancy models:
 
 ```{r plots_oc, echo=FALSE, fig.height=12, fig.width=10, message=FALSE, warning=FALSE}
-a4<-ggplot(data=data, aes(x=p_ratio, y=PLAND)) +
+a1<-ggplot(data=data, aes(x=people, y=abund)) +
   geom_smooth(size=1, span = 2, method = "glm", color = "darkblue") +
-  labs(x="D. gliroides occurrence", y="Forest %") +
-  ggtitle("PLAND") +
+  labs(x="People", y="Abundance") +
+  ggtitle("People") +
   theme_classic() +
   My_Theme
 a6<-ggplot(data=data, aes(x=p_ratio, y=NP)) +
