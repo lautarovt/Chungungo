@@ -24,11 +24,19 @@ library(lme4)
 library(lmerTest)
 library(pbkrtest)
 library(MuMIn)
+library(MCMCglmm)
+library(ggplot2)
 
 #loading data
 data<-read.table("data/data.txt", header = T)
 attach(data)
 ```
+
+Let's do some nice ggplots to examine our data before fitting fancy models:
+
+
+
+## Models
 
 To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
 
@@ -71,6 +79,17 @@ barplot(t(imp.mm2), main="Predictors", col="black", xlab="Variable", ylab="Relat
 ```
 
 Pretty much the same than above.
+
+### A Bayesian approach
+
+As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
+
+```{r mcmc1}
+mod3<-MCMCglmm(abund~people+boats+pets+algae, random = ~ site, data=data, verbose = FALSE)
+summary(mod3)
+```
+
+OK, it seems that there is no effect at all, as both approaches showed consistent results.
 
 ## Session
 
