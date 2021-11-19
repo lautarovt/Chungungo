@@ -55,33 +55,30 @@ a1<-ggplot(data=data, aes(x=people, y=abund)) +
   ggtitle("People") +
   theme_classic() +
   My_Theme
-a6<-ggplot(data=data, aes(x=p_ratio, y=NP)) +
+a2<-ggplot(data=data, aes(x=boats, y=abund)) +
   geom_smooth(size=1, span = 2, method = "glm", color = "blueviolet") +
-  labs(x="D. gliroides occurrence", y="Number of patches") +
-  ggtitle("NP") +
+  labs(x="Boats", y="Abundance") +
+  ggtitle("Boats") +
   theme_classic() +
   My_Theme
-b4<-ggplot(data=data, aes(x=p_ratio, y=contig_wg)) +
+a3<-ggplot(data=data, aes(x=pets, y=abund)) +
   geom_smooth(size=1, span = 2, method = "glm", color = "firebrick1") +
-  labs(x="D. gliroides occurrence", y="Contiguity Index (wg mean)") +
-  ggtitle("CONTIG (wg mean)") +
+  labs(x="Pets", y="Abundance") +
+  ggtitle("Pets") +
   theme_classic() +
   My_Theme
-c8<-ggplot(data=data, aes(x=p_ratio, y=ENN_wg)) +
+a4<-ggplot(data=data, aes(x=algae, y=abund)) +
   geom_smooth(size=1, span = 2, method = "glm", color = "darkorange1") +
-  labs(x="D. gliroides occurrence", y="ENN (wg mean)") +
-  ggtitle("ENN (wg mean)") +
-  theme_classic() +
-  My_Theme
-d2<-ggplot(data=data, aes(x=p_ratio, y=CONNECT_250m)) +
-  geom_smooth(size=1, span = 2, method = "glm", color = "chartreuse3") +
-  labs(x="D. gliroides occurrence", y="Connectance Index") +
-  ggtitle("CONNECT 250m") +
+  labs(x="Algae drying sites", y="Abundance") +
+  ggtitle("Algae drying sites") +
   theme_classic() +
   My_Theme
 
-multiplot(a4, b4, d2, a6, c8, cols=2)
+
+multiplot(a1, a3, a2, a4, cols=2)
 ```
+
+Uhhmm... there is a trend in the two inferior panels, but error are too big.
 
 ## Models
 
