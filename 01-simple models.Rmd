@@ -30,3 +30,10 @@ data<-read.table("data/data.txt", header = T)
 attach(data)
 ```
 
+To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
+
+```{r model1}
+mod1<-glmer(abund~people+boats+pets+algae+(1|site)+(1|month), family = "poisson")
+summary(mod1)
+```
+
