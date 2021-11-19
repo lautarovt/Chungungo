@@ -23,6 +23,7 @@ library(mgcv)
 library(lme4)
 library(lmerTest)
 library(pbkrtest)
+library(MuMIn)
 
 #loading data
 data<-read.table("data/data.txt", header = T)
