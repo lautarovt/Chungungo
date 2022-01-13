@@ -49,35 +49,17 @@ My_Theme = theme(
 Let's do some nice ggplots to examine our data before fitting fancy models:
 
 ```{r plots_oc, echo=FALSE, fig.height=12, fig.width=10, message=FALSE, warning=FALSE}
-a1<-ggplot(data=data, aes(x=people, y=abund)) +
-  geom_smooth(size=1, span = 2, method = "glm", color = "darkblue") +
-  labs(x="People", y="Abundance") +
-  ggtitle("People") +
-  theme_classic() +
-  My_Theme
-a2<-ggplot(data=data, aes(x=boats, y=abund)) +
-  geom_smooth(size=1, span = 2, method = "glm", color = "blueviolet") +
-  labs(x="Boats", y="Abundance") +
-  ggtitle("Boats") +
-  theme_classic() +
-  My_Theme
-a3<-ggplot(data=data, aes(x=pets, y=abund)) +
-  geom_smooth(size=1, span = 2, method = "glm", color = "firebrick1") +
-  labs(x="Pets", y="Abundance") +
-  ggtitle("Pets") +
-  theme_classic() +
-  My_Theme
-a4<-ggplot(data=data, aes(x=algae, y=abund)) +
-  geom_smooth(size=1, span = 2, method = "glm", color = "darkorange1") +
-  labs(x="Algae drying sites", y="Abundance") +
-  ggtitle("Algae drying sites") +
+a1<-ggplot(data=data, aes(x=distindx, y=abund)) +
+  geom_smooth(size=1, span = 2, method = "glm", color = "dodgerblue2") +
+  labs(x="Dist index", y="Abundance") +
+  ggtitle("Disturbance index") +
   theme_classic() +
   My_Theme
 
-
-multiplot(a1, a3, a2, a4, cols=2)
+multiplot(a1, cols=1)
 ```
 
+There is a trend but the error is HUGE!
 
 ## Models
 
