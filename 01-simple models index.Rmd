@@ -63,58 +63,35 @@ There is a trend but the error is HUGE!
 
 ## Models
 
-To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
+To do this, we will use a simple GLMM, using site and sampling month as random factors.
 
 ```{r model1}
-mod1<-lmer(abund~people+boats+pets+algae+(1|site)+(1|month), na.action = "na.fail")
+mod1<-lmer(abund~distindx+(1|site)+(1|month), na.action = "na.fail")
 summary(mod1, ddf="Kenward-Roger")
 ```
 
-Well, it seems that none of our predictor variables are significant either using the category approach :-(
-
-Let's try some multi-model inference to examine the relative support of each variable to our dataset
-
-```{r mumin1}
-mm1<-dredge(mod1, rank = BIC)
-subset(mm1, delta <5)
-get.models(mm1, subset = delta < 2)
-imp.mm1<-importance(mm1)
-barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
-```
-
-Well, it seems that all predictor variables have similar importance.
+Well, it seems that the new index is significant...
 
 Following Ben Bolker's advice, we can avoid singular fit by removing those random effects with a very litle contribution (in this case, _month_). Let's try fitting a new model using only _site_ as random effect:
 
 ```{r model2}
-mod2<-lmer(abund~people+boats+pets+algae+(1|site), na.action = "na.fail")
+mod2<-lmer(abund~distindx+(1|site), na.action = "na.fail")
 summary(mod2, ddf="Kenward-Roger")
 ```
 
-Well, there is no singular fit now, BUT none of our predictor variables is significant (doh!)
+Well, there is no singular fit now, BUT the disturbance index is not significant as well (doh!)
 
-Let's examine multi-model inference for this new model as well:
-
-```{r mumin2}
-mm2<-dredge(mod2, rank = BIC)
-subset(mm2, delta <5)
-get.models(mm2, subset = delta < 2)
-imp.mm2<-importance(mm2)
-barplot(t(imp.mm2), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
-```
-
-Pretty much the same than above.
 
 ### A Bayesian approach
 
 As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
 
 ```{r mcmc1}
-mod3<-MCMCglmm(abund~people+boats+pets+algae, random = ~ site, data=data, verbose = FALSE)
+mod3<-MCMCglmm(abund~distindx, random = ~ site, data=data, verbose = FALSE)
 summary(mod3)
 ```
 
-OK, it seems that there is no effect at all, as both approaches showed consistent results.
+OK, it seems that there is no effect at all, as all approaches showed consistent results.
 
 ## Session
 
