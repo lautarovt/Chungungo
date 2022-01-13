@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 ## Anthropogenic effects on chungungo's abundance
 
-Here we will explore some anthropogenic variables as potential drivers os abundance change on this species
+Here we will explore some anthropogenic variables as potential drivers of abundance change on this species
 
 ```{r data, include=FALSE}
 #loading libraries
