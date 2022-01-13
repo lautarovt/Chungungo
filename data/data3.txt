@@ -14,7 +14,7 @@ site	month	abund	people	boats	pets	algae
 3	apr	2	high	low	SP	SP
 4	apr	1	SP	low	SP	SP
 5	apr	0.8	high	SP	low	SP
-6	apr	2	sp	SP	SP	SP
+6	apr	2	SP	SP	SP	SP
 1	may 	3	high	SP	SP	SP
 2	may 	4	low	low	SP	low
 3	may 	1	medium	low	SP	SP
