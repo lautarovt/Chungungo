@@ -84,7 +84,7 @@ multiplot(a1, a3, a2, a4, cols=2)
 To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
 
 ```{r model1}
-mod1<-lmer(abund~people+boats+pets+algae+(1|site)+(1|month), na.action = "na.fail")
+mod1<-lmer(abund~peopleC+boatsC+petsC+algaeC+(1|site)+(1|month), na.action = "na.fail")
 summary(mod1, ddf="Kenward-Roger")
 ```
 
@@ -105,7 +105,7 @@ Well, it seems that all predictor variables have similar importance.
 Following Ben Bolker's advice, we can avoid singular fit by removing those random effects with a very litle contribution (in this case, _month_). Let's try fitting a new model using only _site_ as random effect:
 
 ```{r model2}
-mod2<-lmer(abund~people+boats+pets+algae+(1|site), na.action = "na.fail")
+mod2<-lmer(abund~peopleC+boatsC+petsC+algaeC+(1|site), na.action = "na.fail")
 summary(mod2, ddf="Kenward-Roger")
 ```
 
@@ -128,7 +128,7 @@ Pretty much the same than above.
 As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
 
 ```{r mcmc1}
-mod3<-MCMCglmm(abund~people+boats+pets+algae, random = ~ site, data=data, verbose = FALSE)
+mod3<-MCMCglmm(abund~peopleC+boatsC+petsC+algaeC, random = ~ site, data=data, verbose = FALSE)
 summary(mod3)
 ```
 
