@@ -1,7 +1,7 @@
 ---
 title: "01-Simple models - categories"
 author: "Francisco E. Fonturbel"
-date: "13/jan/2022"
+date: "09/mar/2022"
 output: html_document
 ---
 
@@ -29,7 +29,7 @@ library(ggplot2)
 source("multiplot.R")
 
 #loading data
-data<-read.table("data/data3.txt", header = T)
+data<-read.table("data/data4.txt", header = T)
 attach(data)
 
 #ggplot grooming
@@ -49,25 +49,25 @@ My_Theme = theme(
 Let's do some nice ggplots to examine our data before fitting fancy models:
 
 ```{r plots_oc, echo=FALSE, fig.height=12, fig.width=10, message=FALSE, warning=FALSE}
-a1<-ggplot(data=data, aes(x=people, y=abund)) +
+a1<-ggplot(data=data, aes(x=peopleC, y=abund)) +
   geom_boxplot(size=1, span = 2, method = "glm", color = "darkblue") +
   labs(x="People", y="Abundance") +
   ggtitle("People") +
   theme_classic() +
   My_Theme
-a2<-ggplot(data=data, aes(x=boats, y=abund)) +
+a2<-ggplot(data=data, aes(x=boatsC, y=abund)) +
   geom_boxplot(size=1, span = 2, method = "glm", color = "blueviolet") +
   labs(x="Boats", y="Abundance") +
   ggtitle("Boats") +
   theme_classic() +
   My_Theme
-a3<-ggplot(data=data, aes(x=pets, y=abund)) +
+a3<-ggplot(data=data, aes(x=petsC, y=abund)) +
   geom_boxplot(size=1, span = 2, method = "glm", color = "firebrick1") +
   labs(x="Pets", y="Abundance") +
   ggtitle("Pets") +
   theme_classic() +
   My_Theme
-a4<-ggplot(data=data, aes(x=algae, y=abund)) +
+a4<-ggplot(data=data, aes(x=algaeC, y=abund)) +
   geom_boxplot(size=1, span = 2, method = "glm", color = "darkorange1") +
   labs(x="Algae drying sites", y="Abundance") +
   ggtitle("Algae drying sites") +
