@@ -111,7 +111,7 @@ hab.nmds.plot
 hab.mds$stress
 ```
 
-Well, they are pretty much the same.
+Well, they are pretty much the same. Stress values are quite good!
 
 ### MANOVA
 
@@ -123,7 +123,7 @@ summary(hab_diff)
 summary.aov(hab_diff)
 ```
 
-Only rock islands showed a significant difference.
+Only distance showed a significant difference.
 
 ## Session
 
