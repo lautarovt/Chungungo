@@ -1,7 +1,7 @@
 ---
 title: "01-Simple models"
 author: "Francisco E. Fonturbel"
-date: "19/nov/2021"
+date: "09/mar/2022"
 output: html_document
 ---
 
@@ -29,7 +29,7 @@ library(ggplot2)
 source("multiplot.R")
 
 #loading data
-data<-read.table("data/data.txt", header = T)
+data<-read.table("data/data4.txt", header = T)
 attach(data)
 
 #ggplot grooming
