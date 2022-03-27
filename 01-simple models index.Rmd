@@ -82,6 +82,12 @@ summary(mod2, ddf="Kenward-Roger")
 Well, there is no singular fit now, BUT the disturbance index is not significant as well (doh!)
 
 
+```{r models}
+mods<-glm(log(abund+1)~log(distindx+1))
+summary(mods)
+```
+
+
 ### A Bayesian approach
 
 As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
