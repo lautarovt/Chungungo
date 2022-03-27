@@ -80,6 +80,25 @@ multiplot(a1, a3, a2, a4, cols=2)
 
 Uhhmm... there is a trend in the two inferior panels, but error are too big.
 
+## Individual model
+
+Although is not the best option, we will try to fit some glms for each individual predictor variable depicted in the plots above.
+
+### People
+```{r modelp}
+modp<-lmer(abund~people+(1|site)+(1|month), na.action = "na.fail")
+summary(modp)
+```
+
+### Boats
+
+
+### Pets
+
+
+### Algae drying sites
+
+
 ## Models
 
 To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
