@@ -1,7 +1,7 @@
 ---
 title: "01-Simple models - disturbance index"
 author: "Francisco E. Fonturbel"
-date: "09/mar/2022"
+date: "26/mar/2022"
 output: html_document
 ---
 
@@ -83,10 +83,11 @@ Well, there is no singular fit now, BUT the disturbance index is not significant
 
 
 ```{r models}
-mods<-glm(log(abund+1)~log(distindx+1))
+mods<-lm(log(abund+1)~log(distindx+1))
 summary(mods)
 ```
 
+This one is closer but still not significant... DAMN!
 
 ### A Bayesian approach
 
