@@ -103,7 +103,7 @@ summary(modt)
 ```
 
 ### Algae drying sites
-```{r model1}
+```{r modela}
 moda<-glm(abund~algae)
 summary(moda)
 ```
