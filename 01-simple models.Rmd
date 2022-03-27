@@ -1,7 +1,7 @@
 ---
 title: "01-Simple models"
 author: "Francisco E. Fonturbel"
-date: "09/mar/2022"
+date: "26/mar/2022"
 output: html_document
 ---
 
@@ -86,18 +86,27 @@ Although is not the best option, we will try to fit some glms for each individua
 
 ### People
 ```{r modelp}
-modp<-lmer(abund~people+(1|site)+(1|month), na.action = "na.fail")
+modp<-glm(abund~people)
 summary(modp)
 ```
 
 ### Boats
-
+```{r modelb}
+modb<-glm(abund~boats)
+summary(modb)
+```
 
 ### Pets
-
+```{r modelt}
+modt<-glm(abund~pets)
+summary(modt)
+```
 
 ### Algae drying sites
-
+```{r model1}
+moda<-glm(abund~algae)
+summary(moda)
+```
 
 ## Models
 
@@ -108,7 +117,8 @@ mod1<-lmer(abund~people+boats+pets+algae+(1|site)+(1|month), na.action = "na.fai
 summary(mod1)
 ```
 
-Well, it seems that none of our predictor variables are significant... Also, R warns us that we have _singular fit_ (this [article](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#singular-models-random-effect-variances-estimated-as-zero-or-correlations-estimated-as---1) to solve that)
+Well, it seems that none of our predictor variables are significant... Also, R warns us that we have _singular fit_ (this [article](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#singular-models-random-effect-variances-estimated-as-zero-or-correlations-estimated-as---1) to solve that).
+
 
 Let's try some multi-model inference to examine the relative support of each variable to our dataset
 
