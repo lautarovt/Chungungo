@@ -131,7 +131,27 @@ OK, it seems that there is no effect at all, as both approaches showed consisten
 
 ## Using disturbance indices
 
-We made two disturbance indices upon the disturbance levels measured. Now, we will use those indices instead of the raw variables... let's see:
+We made two disturbance indices upon the disturbance levels measured.
+
+```{r plots_ind, echo=FALSE, fig.height=12, fig.width=6, message=FALSE, warning=FALSE}
+b1<-ggplot(data=data, aes(x=index_1, y=abund)) +
+  geom_smooth(size=1, span = 2, method = "glm", color = "plum") +
+  labs(x="Index", y="Abundance") +
+  ggtitle("Index 1") +
+  theme_classic() +
+  My_Theme
+b2<-ggplot(data=data, aes(x=index_2, y=abund)) +
+  geom_smooth(size=1, span = 2, method = "glm", color = "yellowgreen") +
+  labs(x="Index", y="Abundance") +
+  ggtitle("Index 2") +
+  theme_classic() +
+  My_Theme
+
+multiplot(b1, b2, cols=1)
+```
+
+
+Now, we will use those indices instead of the raw variables... let's see:
 
 #### Index 1
 
