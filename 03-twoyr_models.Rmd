@@ -26,6 +26,7 @@ library(pbkrtest)
 library(MuMIn)
 library(MCMCglmm)
 library(ggplot2)
+library(AER)
 source("multiplot.R")
 
 #loading data
@@ -87,19 +88,27 @@ Although is not the best option, we will try to fit some glms for each individua
 
 ### People
 ```{r modelp}
-modp<-glm(abund~people)
+modp<-glm(abund~people, family = "poisson")
 summary(modp)
 ```
 
+Let's test our count variable for overdispersion before continuing...
+
+```{r disper}
+dispersiontest(modp)
+```
+
+No overdispersion, we can go with Poisson distribution hereafter.
+
 ### Boats
 ```{r modelb}
-modb<-glm(abund~boats)
+modb<-glm(abund~boats, family = "poisson")
 summary(modb)
 ```
 
 ### Pets
 ```{r modelt}
-modt<-glm(abund~pets)
+modt<-glm(abund~pets, family = "poisson")
 summary(modt)
 ```
 
@@ -109,7 +118,7 @@ summary(modt)
 To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
 
 ```{r model1}
-mod1<-lmer(abund~people+boats+pets+(1|site)+(month|year), na.action = "na.fail")
+mod1<-glmer(abund~people+boats+pets+(1|site)+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod1)
 ```
 
@@ -131,7 +140,7 @@ Well, we have a trend here! but relative support is way too low.
 As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
 
 ```{r mcmc1}
-mod2<-MCMCglmm(abund~people+boats+pets, random = ~ site, data=data, verbose = FALSE)
+mod2<-MCMCglmm(abund~people+boats+pets, random = ~ site, data=data, verbose = FALSE, family = "poisson")
 summary(mod2)
 ```
 
@@ -165,17 +174,53 @@ Now, we will use those indices instead of the raw variables... let's see:
 #### Index 1
 
 ```{r mind1}
-mod3<-lmer(abund~index_1+(1|site)+(month|year), na.action = "na.fail")
+mod3<-glmer(abund~index_1+(1|site)+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod3)
 ```
 
 #### Index 2
 
 ```{r mind2}
-mod4<-lmer(abund~index_2+(1|site)+(month|year), na.action = "na.fail")
+mod4<-glmer(abund~index_2+(1|site)+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod4)
 ```
 
+Again, nothing significant.
+
+What if we remove the random effects?
+
+
+#### Index 1 (w/o random effects)
+
+```{r mind1nr}
+mod3nr<-glm(abund~index_1, family = "poisson")
+summary(mod3nr)
+```
+
+#### Index 2 (w/o random effects)
+
+```{r mind2nr}
+mod4nr<-glm(abund~index_2, family = "poisson")
+summary(mod4nr)
+```
+
+Taking off the random effects yield significant results.
+
+What if we also get rid of the random effects in the global model?
+
+```{r model1nr}
+mod1nr<-glm(abund~people+boats+pets, na.action = "na.fail", family = "poisson")
+summary(mod1nr)
+```
+
+```{r mumin1nr}
+mm1nr<-dredge(mod1nr, rank = BIC)
+subset(mm1nr, delta <2)
+get.models(mm1nr, subset = delta < 2)
+imp.mm1nr<-sw(mm1nr)
+barplot(t(imp.mm1nr), main="Predictors", col="violet", xlab="Variable", ylab="Relative support")
+```
+Now it makes more sense!
 
 ## Session
 
