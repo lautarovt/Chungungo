@@ -72,6 +72,15 @@ multiplot(a1, a2, a3, cols=1)
 ```
 
 
+How is our **response varible** distributed?
+
+```{r hist, echo=FALSE}
+hist(abund, col = "slateblue2", main = "Response variable", xlab = "Abundance", ylab = "Frequency")
+```
+
+Well, our response variable is not normal, as abundance is a count variable with positive integers. Therefore, we should use _Poisson_ or _negative binomial_ distributions instead.
+
+
 ## Individual models
 
 Although is not the best option, we will try to fit some glms for each individual predictor variable depicted in the plots above.
