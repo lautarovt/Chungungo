@@ -128,6 +128,26 @@ summary(mod2)
 
 OK, it seems that there is no effect at all, as both approaches showed consistent results.
 
+
+## Using disturbance indices
+
+We made two disturbance indices upon the disturbance levels measured. Now, we will use those indices instead of the raw variables... let's see:
+
+#### Index 1
+
+```{r mind1}
+mod3<-lmer(abund~index_1+(1|site)+(month|year), na.action = "na.fail")
+summary(mod3)
+```
+
+#### Index 2
+
+```{r mind2}
+mod4<-lmer(abund~index_2+(1|site)+(month|year), na.action = "na.fail")
+summary(mod4)
+```
+
+
 ## Session
 
 ```{r session, echo=T}
