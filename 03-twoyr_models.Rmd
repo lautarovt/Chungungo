@@ -122,8 +122,8 @@ Well, we have a trend here! but relative support is way too low.
 As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
 
 ```{r mcmc1}
-mod3<-MCMCglmm(abund~people+boats+pets+algae, random = ~ site, data=data, verbose = FALSE)
-summary(mod3)
+mod2<-MCMCglmm(abund~people+boats+pets, random = ~ site, data=data, verbose = FALSE)
+summary(mod2)
 ```
 
 OK, it seems that there is no effect at all, as both approaches showed consistent results.
