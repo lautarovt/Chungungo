@@ -29,7 +29,7 @@ library(ggplot2)
 source("multiplot.R")
 
 #loading data
-data<-read.table("data/data4.txt", header = T)
+data<-read.table("data/data_2023.txt", header = T)
 attach(data)
 
 #ggplot grooming
@@ -48,7 +48,7 @@ My_Theme = theme(
 
 Let's do some nice ggplots to examine our data before fitting fancy models:
 
-```{r plots_oc, echo=FALSE, fig.height=12, fig.width=10, message=FALSE, warning=FALSE}
+```{r plots_oc, echo=FALSE, fig.height=12, fig.width=6, message=FALSE, warning=FALSE}
 a1<-ggplot(data=data, aes(x=people, y=abund)) +
   geom_smooth(size=1, span = 2, method = "glm", color = "darkblue") +
   labs(x="People", y="Abundance") +
@@ -67,15 +67,8 @@ a3<-ggplot(data=data, aes(x=pets, y=abund)) +
   ggtitle("Pets") +
   theme_classic() +
   My_Theme
-a4<-ggplot(data=data, aes(x=algae, y=abund)) +
-  geom_smooth(size=1, span = 2, method = "glm", color = "darkorange1") +
-  labs(x="Algae drying sites", y="Abundance") +
-  ggtitle("Algae drying sites") +
-  theme_classic() +
-  My_Theme
 
-
-multiplot(a1, a3, a2, a4, cols=2)
+multiplot(a1, a2, a3, cols=1)
 ```
 
 Uhhmm... there is a trend in the two inferior panels, but error are too big.
