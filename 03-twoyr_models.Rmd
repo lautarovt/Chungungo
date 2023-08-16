@@ -1,7 +1,7 @@
 ---
 title: "03-Models for 2yr dataset"
 author: "Francisco E. Fonturbel"
-date: "28/jun/2023"
+date: "16/ago/2023"
 output: html_document
 ---
 
@@ -115,10 +115,10 @@ summary(modt)
 
 ## Models
 
-To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
+To do this, we will use a Poisson GLMM, using sampling month as a random factor (month nested within year).
 
 ```{r model1}
-mod1<-glmer(abund~people+boats+pets+(1|site)+(month|year), na.action = "na.fail", family = "poisson")
+mod1<-glmer(abund~people+boats+pets+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod1)
 ```
 
@@ -132,20 +132,7 @@ imp.mm1<-sw(mm1)
 barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
 ```
 
-Well, we have a trend here! but relative support is way too low.
-
-
-### A Bayesian approach
-
-As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
-
-```{r mcmc1}
-mod2<-MCMCglmm(abund~people+boats+pets, random = ~ site, data=data, verbose = FALSE, family = "poisson")
-summary(mod2)
-```
-
-OK, it seems that there is no effect at all, as both approaches showed consistent results.
-
+As predicted, people is the most relevant variable in our models.
 
 ## Using disturbance indices
 
@@ -174,14 +161,14 @@ Now, we will use those indices instead of the raw variables... let's see:
 #### Index 1
 
 ```{r mind1}
-mod3<-glmer(abund~index_1+(1|site)+(month|year), na.action = "na.fail", family = "poisson")
+mod3<-glmer(abund~index_1+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod3)
 ```
 
 #### Index 2
 
 ```{r mind2}
-mod4<-glmer(abund~index_2+(1|site)+(month|year), na.action = "na.fail", family = "poisson")
+mod4<-glmer(abund~index_2+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod4)
 ```
 
