@@ -172,42 +172,8 @@ mod4<-glmer(abund~index_2+(month|year), na.action = "na.fail", family = "poisson
 summary(mod4)
 ```
 
-Again, nothing significant.
+Both models are significant, but index1 seems nicer than index2.
 
-What if we remove the random effects?
-
-
-#### Index 1 (w/o random effects)
-
-```{r mind1nr}
-mod3nr<-glm(abund~index_1, family = "poisson")
-summary(mod3nr)
-```
-
-#### Index 2 (w/o random effects)
-
-```{r mind2nr}
-mod4nr<-glm(abund~index_2, family = "poisson")
-summary(mod4nr)
-```
-
-Taking off the random effects yield significant results.
-
-What if we also get rid of the random effects in the global model?
-
-```{r model1nr}
-mod1nr<-glm(abund~people+boats+pets, na.action = "na.fail", family = "poisson")
-summary(mod1nr)
-```
-
-```{r mumin1nr}
-mm1nr<-dredge(mod1nr, rank = BIC)
-subset(mm1nr, delta <2)
-get.models(mm1nr, subset = delta < 2)
-imp.mm1nr<-sw(mm1nr)
-barplot(t(imp.mm1nr), main="Predictors", col="violet", xlab="Variable", ylab="Relative support")
-```
-Now it makes more sense!
 
 ## Session
 
