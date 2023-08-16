@@ -134,6 +134,13 @@ barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relat
 
 As predicted, people is the most relevant variable in our models.
 
+AIC model table shows that people has a weight of 82.5%, being the only model within the deltaAIC < 2 subset:
+
+```{r AICtable}
+mm1
+```
+
+
 ## Using disturbance indices
 
 We made two disturbance indices upon the disturbance levels measured.
