@@ -1,7 +1,7 @@
 ---
-title: "02-GLMM 2024"
-author: "Francisco E. Fonturbel"
-date: "31/ene/2024"
+title: "02-GLMM version 2024"
+author: "Francisco E. Fonturbel, Guido Pavez"
+date: "01/Feb/2024"
 output: html_document
 ---
 
@@ -83,27 +83,36 @@ multiplot(a1,a2,a3,a4, cols=2)
 hist(abund, col = "slateblue2", main = "Response variable", xlab = "Relative abundance", ylab = "Frequency")
 ```
 
-##Well, our response variable is not normal, as abundance is a count variable with positive integers. Therefore, we should use _Poisson_ or _negative binomial_ distributions instead.
+Well, our response variable is not normal, as abundance is a count variable with positive integers. Therefore, we should use _Poisson_ or _negative binomial_ distributions instead.
 
 ## Models
 
-#To do this, we will use a Poisson GLMM, using sampling site as random factors.
+To do this, we will use a Poisson GLMM, using sampling site as random factor.
 
 ```{r model1}
 mod1<-glmer(abund~people+boats+pets+(1|site), na.action = "na.fail", family = "poisson")
 summary(mod1)
 ```
 
-##Well, the variable number of people is significant
+No significant resuls here, but the results when we conduct a regular GLM without random factors:
 
-#GLMM para el índice de perturbación antrópica
+```{r model1a}
+mod1a<-glm(abund~people+boats+pets, na.action = "na.fail", family = "poisson")
+summary(mod1a)
+```
+
+Here we have a significant effect on "people".
+
+
+Let's use the disturbance index1 instead:
 
 ```{r model2}
-mod2<-glmer(abund~index_1+(month|year), na.action = "na.fail", family = "poisson")
+mod2<-glmer(abund~index_1+(1|site), na.action = "na.fail", family = "poisson")
 summary(mod2)
 ```
 
-#Singular fit too :C
+No effect well.
+
 
 Let's try some multi-model inference to examine the relative support of each variable to our dataset
 
@@ -113,42 +122,20 @@ mm1<-dredge(mod1, rank = BIC)
 subset(mm1, delta <5)
 get.models(mm1, subset = delta < 2)
 imp.mm1<-sw(mm1)
-barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
+barplot(t(imp.mm1), main="Predictors", col="thistle", xlab="Variable", ylab="Relative support")
 ```
 
-Following Ben Bolker's advice, we can avoid singular fit by removing those random effects with a very litle contribution (in this case, _month_). Let's try fitting a new model using only _site_ as random effect:
-
-```{r model3}
-mod3<-glmer(abund~people+boats+pets+(1 | site), na.action = "na.fail", family = "poisson")
-summary(mod3)
-```
-
-Probé dejando solo el Mes como factor aleatorio (sigue arrojando Singular fit) y solo el Sitio como factor aleatorio (ya no arroja Singular fit pero pierde significancia)
-
-Let's examine multi-model inference for this new model as well:
-
-```{r mumin2}
-mm2<-dredge(mod2, rank = BIC)
-subset(mm2, delta <5)
-get.models(mm2, subset = delta < 2)
-imp.mm2<-sw(mm2)
-barplot(t(imp.mm2), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
-```
-
-Los siguientes modelos quedaron del Script original:
-
-Pretty much the same than above.
 
 ### A Bayesian approach
 
 We'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
 
 ```{r mcmc1}
-mod4<-MCMCglmm(abund~people+boats+pets, random = ~ site, data=data, verbose = FALSE)
-summary(mod4)
+mod3<-MCMCglmm(abund~people+boats+pets, random = ~ site, family = "poisson", data=data, verbose = FALSE)
+summary(mod3)
 ```
 
-Al correr esto da casi significativo la variable Personas.
+Nothing either.
 
 ## Session
 
