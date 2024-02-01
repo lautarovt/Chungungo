@@ -1,7 +1,7 @@
 ---
-title: "02-Habitat"
-author: "Francisco E. Fonturbel"
-date: "31/ene/2024"
+title: "02-Habitat (2024 version)"
+author: "Francisco E. Fonturbel, Guido Pavez"
+date: "01/Feb/2024"
 output: html_document
 ---
 
@@ -41,7 +41,7 @@ My_Theme = theme(
   plot.title = element_text(size = 24,face = "bold", hjust=0.5))
 ```
 
-We have characterized six sites where _Lontra felina_ is present.
+We have characterized six sites where _Lontra felina_ is present. Here we have updated data based on drone estimations (more accurate than visual estimations that we had).
 
 First, are those sites different in terms of habitat features? Let's do an `ANOSIM` and a `nMDS`  for that:
 
@@ -52,12 +52,12 @@ habitat<-data[,3:8]
 
 habdist<-vegdist(habitat)
   
-hab.anosim<-anosim(habdist, data$site, permutations = 999, distance = "bray")
+hab.anosim<-anosim(habdist, data$site, permutations = 999, distance = "jaccard")
 summary(hab.anosim)
 plot(hab.anosim, xlab="Site", ylab="Rank distance")
 ```
 
-No, the six sites are similar in terms of habitat.
+It seems that Site 6 is different than the others in terms of habitat structure.
 
 ### nMDS plot
 
@@ -120,8 +120,7 @@ hab_diff<-manova(as.matrix(habitat)~data$site)
 summary(hab_diff)
 summary.aov(hab_diff)
 ```
-
-Only distance showed a significant difference.
+OK, habitat structure is indeed different among sites. The variables explaining those differences are: smallr, larger, reef, and slope.
 
 ## Session
 
