@@ -1,0 +1,130 @@
+---
+title: "02-Habitat"
+author: "Francisco E. Fonturbel"
+date: "31/ene/2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Variation in otter habitat variables.
+
+
+```{r data, include=FALSE}
+#loading libraries
+library(ggplot2)
+library(ggsci)
+library(vegan)
+source("multiplot.R")
+
+#loading data
+data<-read.table("data/Habitat_2024.txt", header = T)
+attach(data)
+
+#ggplot grooming
+My_Theme = theme(
+  axis.title.x = element_text(size = 18,face="bold"),
+  axis.text.x = element_text(size = 16),
+  axis.text.y = element_text(size = 16),
+  axis.title.y = element_text(size = 18,face="bold"),
+  legend.text = element_text(size = 14),
+  legend.title = element_text(size = 14,face="bold"),
+  panel.grid.major = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.background = element_rect(fill = "white"),
+  plot.title = element_text(size = 24,face = "bold", hjust=0.5))
+```
+
+We have characterized six sites where _Lontra felina_ is present.
+
+First, are those sites different in terms of habitat features? Let's do an `ANOSIM` and a `nMDS`  for that:
+
+### ANOSIM
+
+```{r anosim, eval=TRUE, echo=FALSE, fig.width=8}
+habitat<-data[,3:8]
+
+habdist<-vegdist(habitat)
+  
+hab.anosim<-anosim(habdist, data$site, permutations = 999, distance = "bray")
+summary(hab.anosim)
+plot(hab.anosim, xlab="Site", ylab="Rank distance")
+```
+
+No, the six sites are similar in terms of habitat.
+
+### nMDS plot
+
+```{r nmds}
+hab.mds<-metaMDS(habdist, distance = "bray")
+
+hab.scores<-as.data.frame(scores(hab.mds))
+hab.scores$site<-rownames(hab.scores)
+hab.scores$site<-data$site
+
+grp.G1 <- hab.scores[hab.scores$site == "S1", ][chull(hab.scores[hab.scores$site == 
+    "S1", c("NMDS1", "NMDS2")]), ]  # hull values for site 1
+grp.G2 <- hab.scores[hab.scores$site == "S2", ][chull(hab.scores[hab.scores$site == 
+    "S2", c("NMDS1", "NMDS2")]), ]  # hull values for site 2
+grp.G3 <- hab.scores[hab.scores$site == "S3", ][chull(hab.scores[hab.scores$site == 
+    "S3", c("NMDS1", "NMDS2")]), ]  # hull values for site 3
+grp.G4 <- hab.scores[hab.scores$site == "S4", ][chull(hab.scores[hab.scores$site == 
+    "S4", c("NMDS1", "NMDS2")]), ]  # hull values for site 4
+grp.G5 <- hab.scores[hab.scores$site == "S5", ][chull(hab.scores[hab.scores$site == 
+    "S5", c("NMDS1", "NMDS2")]), ]  # hull values for site 5
+grp.G6 <- hab.scores[hab.scores$site == "S6", ][chull(hab.scores[hab.scores$site == 
+    "S6", c("NMDS1", "NMDS2")]), ]  # hull values for site 6
+
+
+hull.hab <- rbind(grp.G1, grp.G2, grp.G3, grp.G4, grp.G5, grp.G6)  #combine groups
+
+hab.nmds.plot<-ggplot() + 
+  geom_polygon(data=hull.hab,aes(x=NMDS1,y=NMDS2,fill=site,group=site),alpha=0.30) + # add the convex hulls
+  geom_point(data=hab.scores,aes(x=NMDS1,y=NMDS2,shape=site,colour=site),size=4) + # add the point markers
+  coord_equal() +
+  scale_fill_startrek() +
+  scale_color_startrek() +
+  theme_bw() + 
+  labs(x="nMDS 1", y="nMDS 2") +
+  theme(axis.text.x = element_text(size = 16),  # remove x-axis text
+        axis.text.y = element_text(size = 16), # remove y-axis text
+        axis.ticks = element_blank(),  # remove axis ticks
+        axis.title.x = element_text(size=18), # remove x-axis labels
+        axis.title.y = element_text(size=18), # remove y-axis labels
+        panel.background = element_blank(), 
+        panel.grid.major = element_blank(),  #remove major-grid labels
+        panel.grid.minor = element_blank(),  #remove minor-grid labels
+        plot.background = element_blank(),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 16))
+hab.nmds.plot
+
+#Obtaining nMDS stress
+hab.mds$stress
+```
+
+Well, they are pretty much the same. Stress values are quite good!
+
+### MANOVA
+
+In a last attempt to test for habitat differences, we will perform a multivariate analysis of variance using R's `manova` function.
+
+```{r manowar}
+hab_diff<-manova(as.matrix(habitat)~data$site)
+summary(hab_diff)
+summary.aov(hab_diff)
+```
+
+Only distance showed a significant difference.
+
+## Session
+
+```{r session, echo=T}
+sessionInfo()
+```
