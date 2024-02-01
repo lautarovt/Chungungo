@@ -120,7 +120,8 @@ hab_diff<-manova(as.matrix(habitat)~data$site)
 summary(hab_diff)
 summary.aov(hab_diff)
 ```
-OK, habitat structure is indeed different among sites. The variables explaining those differences are: smallr, larger, reef, and slope.
+
+OK, habitat structure is indeed different among sites. The variables explaining those differences are: **smallr, larger, reef, and slope**.
 
 ## Session
 
