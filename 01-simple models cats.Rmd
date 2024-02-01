@@ -82,9 +82,10 @@ plot(a3)
 plot(a4)
 
 ```
-##How is our **response varible** distributed?
 
-##```{r hist, echo=FALSE}
+##How is our **response variable** distributed?
+
+```{r hist, echo=FALSE}
 
 hist(abund, col = "slateblue2", main = "Response variable", xlab = "Relative abundance", ylab = "Frequency")
 ```
@@ -106,7 +107,7 @@ summary(mod1)
 
 #GLMM para el índice de perturbación antrópica
 
-```{r model1}
+```{r model2}
 
 mod2<-glmer(abund~index_2+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod2)
@@ -123,7 +124,7 @@ Let's try some multi-model inference to examine the relative support of each var
 mm1<-dredge(mod1, rank = BIC)
 subset(mm1, delta <5)
 get.models(mm1, subset = delta < 2)
-imp.mm1<-importance(mm1)
+imp.mm1<-sw(mm1)
 barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
 
 ```
@@ -132,7 +133,7 @@ barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relat
 
 Following Ben Bolker's advice, we can avoid singular fit by removing those random effects with a very litle contribution (in this case, _month_). Let's try fitting a new model using only _site_ as random effect:
 
-```{r model2}
+```{r model3}
 
 mod3<-glmer(abund~people+boats+pets+(1 | month), na.action = "na.fail", family = "poisson")
 summary(mod3)
@@ -147,7 +148,7 @@ Let's examine multi-model inference for this new model as well:
 mm2<-dredge(mod2, rank = BIC)
 subset(mm2, delta <5)
 get.models(mm2, subset = delta < 2)
-imp.mm2<-importance(mm2)
+imp.mm2<-sw(mm2)
 barplot(t(imp.mm2), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
 ```
 
