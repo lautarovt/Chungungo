@@ -1,4 +1,4 @@
-site	transect	smallr	medr	larger	vlarger	reef	pendiente_p
+site	transect	smallr	medr	larger	vlarger	reef	slope
 S1	T1	0	0	0	6	1	157.56
 S1	T2	6	1	0	2	0	111.74
 S1	T3	0	0	0	4	1	110.82
