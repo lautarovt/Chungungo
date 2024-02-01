@@ -76,17 +76,11 @@ a4<-ggplot(data=data, aes(x=index_1, y=abund)) +
   My_Theme
 
 multiplot(a1,a2,a3,a4, cols=2)
-plot(a1)
-plot(a2)
-plot(a3)
-plot(a4)
-
 ```
 
 ##How is our **response variable** distributed?
 
 ```{r hist, echo=FALSE}
-
 hist(abund, col = "slateblue2", main = "Response variable", xlab = "Relative abundance", ylab = "Frequency")
 ```
 
@@ -97,36 +91,34 @@ hist(abund, col = "slateblue2", main = "Response variable", xlab = "Relative abu
 #To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
 
 ```{r model1}
-
-mod1<-glmer(abund~people+boats+pets+(month|year), na.action = "na.fail", family = "poisson")
+mod1<-glmer(abund~people+boats+pets+(1|mnthyr), na.action = "na.fail", family = "poisson")
 summary(mod1)
 
+mod1p<-glm(abund~people+boats+pets, na.action = "na.fail", family = "poisson")
+summary(mod1p)
+dispersiontest(mod1p)
 ```
 
-##Well, the variable number of people is significant
+Well, the variable number of people is significant but we have singular fit when including time as random factor.
 
 #GLMM para el índice de perturbación antrópica
 
 ```{r model2}
-
 mod2<-glmer(abund~index_2+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod2)
-
 ```
 
-#Singular fit too :C
+Singular fit too :C
 
 Let's try some multi-model inference to examine the relative support of each variable to our dataset
 
 
 ```{r mumin1}
-
 mm1<-dredge(mod1, rank = BIC)
 subset(mm1, delta <5)
 get.models(mm1, subset = delta < 2)
 imp.mm1<-sw(mm1)
 barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
-
 ```
 
 #Esto ya no funciona, arroja varios errores, de todas maneras probé sacando los factores anidados
@@ -142,9 +134,8 @@ summary(mod3)
 
 Probé dejando solo el Mes como factor aleatorio (sigue arrojando Singular fit) y solo el Sitio como factor aleatorio (ya no arroja Singular fit pero pierde significancia)
 
-Let's examine multi-model inference for this new model as well:
 
-```{r mumin2}
+```{r mumin2, eval=FALSE, include=FALSE}
 mm2<-dredge(mod2, rank = BIC)
 subset(mm2, delta <5)
 get.models(mm2, subset = delta < 2)
@@ -161,10 +152,8 @@ Pretty much the same than above.
 As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
 
 ```{r mcmc1}
-
 mod4<-MCMCglmm(abund~people+boats+pets, random = ~ site, data=data, verbose = FALSE)
 summary(mod4)
-
 ```
 
 Al correr esto da casi significativo la variable Personas.
