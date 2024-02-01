@@ -98,11 +98,9 @@ summary(mod1)
 
 #GLMM para el índice de perturbación antrópica
 
-```{r model1}
-
+```{r model2}
 mod2<-glmer(abund~index_1+(month|year), na.action = "na.fail", family = "poisson")
 summary(mod2)
-
 ```
 
 #Singular fit too :C
@@ -120,7 +118,7 @@ barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relat
 
 Following Ben Bolker's advice, we can avoid singular fit by removing those random effects with a very litle contribution (in this case, _month_). Let's try fitting a new model using only _site_ as random effect:
 
-```{r model2}
+```{r model3}
 mod3<-glmer(abund~people+boats+pets+(1 | site), na.action = "na.fail", family = "poisson")
 summary(mod3)
 ```
@@ -133,7 +131,7 @@ Let's examine multi-model inference for this new model as well:
 mm2<-dredge(mod2, rank = BIC)
 subset(mm2, delta <5)
 get.models(mm2, subset = delta < 2)
-imp.mm2<-importance(mm2)
+imp.mm2<-sw(mm2)
 barplot(t(imp.mm2), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
 ```
 
