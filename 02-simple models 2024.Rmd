@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 ## Anthropogenic effects on chungungo's abundance
 
-##Here we will explore some anthropogenic variables as potential drivers of abundance change on this species
+Here we will explore some anthropogenic variables as potential drivers of abundance change on this species
 
 ```{r data, include=FALSE}
 #loading libraries
@@ -51,7 +51,6 @@ My_Theme = theme(
 Let's do some nice ggplots to examine our data before fitting fancy models:
 
 ```{r plots_oc, echo=FALSE, fig.height=12, fig.width=10, message=FALSE, warning=FALSE}
-
 a1<-ggplot(data=data, aes(x=people, y=abund)) +
   geom_smooth(linewidth=1, span = 2, method = "glm", color = "black") +
   labs(x="Number of people", y="Relative abundance (ind/km)") +
@@ -76,16 +75,11 @@ a4<-ggplot(data=data, aes(x=index_1, y=abund)) +
   My_Theme
 
 multiplot(a1,a2,a3,a4, cols=2)
-plot(a1)
-plot(a2)
-plot(a3)
-plot(a4)
-
 ```
+
 ##How is our **response varible** distributed?
 
-##```{r hist, echo=FALSE}
-
+```{r hist, echo=FALSE}
 hist(abund, col = "slateblue2", main = "Response variable", xlab = "Relative abundance", ylab = "Frequency")
 ```
 
@@ -93,13 +87,11 @@ hist(abund, col = "slateblue2", main = "Response variable", xlab = "Relative abu
 
 ## Models
 
-#To do this, we will use a Poisson GLMM, using site and sampling month as random factors.
+#To do this, we will use a Poisson GLMM, using sampling site as random factors.
 
 ```{r model1}
-
-mod1<-glmer(abund~people+boats+pets+(month|year), na.action = "na.fail", family = "poisson")
+mod1<-glmer(abund~people+boats+pets+(1|site), na.action = "na.fail", family = "poisson")
 summary(mod1)
-
 ```
 
 ##Well, the variable number of people is significant
@@ -119,24 +111,18 @@ Let's try some multi-model inference to examine the relative support of each var
 
 
 ```{r mumin1}
-
 mm1<-dredge(mod1, rank = BIC)
 subset(mm1, delta <5)
 get.models(mm1, subset = delta < 2)
-imp.mm1<-importance(mm1)
+imp.mm1<-sw(mm1)
 barplot(t(imp.mm1), main="Predictors", col="black", xlab="Variable", ylab="Relative support")
-
 ```
-
-#Esto ya no funciona, arroja varios errores, de todas maneras probé sacando los factores anidados
 
 Following Ben Bolker's advice, we can avoid singular fit by removing those random effects with a very litle contribution (in this case, _month_). Let's try fitting a new model using only _site_ as random effect:
 
 ```{r model2}
-
-mod3<-glmer(abund~people+boats+pets+(1 | month), na.action = "na.fail", family = "poisson")
+mod3<-glmer(abund~people+boats+pets+(1 | site), na.action = "na.fail", family = "poisson")
 summary(mod3)
-
 ```
 
 Probé dejando solo el Mes como factor aleatorio (sigue arrojando Singular fit) y solo el Sitio como factor aleatorio (ya no arroja Singular fit pero pierde significancia)
@@ -157,13 +143,11 @@ Pretty much the same than above.
 
 ### A Bayesian approach
 
-As we have a relatively small (N = 34) sample size, we'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
+We'll try now a Bayesian approach (based on Dimas' code) to test the same but under a Bayesian framework based on Monte Carlo Markov Chains
 
 ```{r mcmc1}
-
 mod4<-MCMCglmm(abund~people+boats+pets, random = ~ site, data=data, verbose = FALSE)
 summary(mod4)
-
 ```
 
 Al correr esto da casi significativo la variable Personas.
