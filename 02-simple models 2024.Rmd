@@ -68,7 +68,7 @@ a3<-ggplot(data=data, aes(x=pets, y=abund)) +
   labs(x="Number of pets", y="Relative abundance (ind/km)") +
   theme_classic() +
   My_Theme
-a4<-ggplot(data=data, aes(x=index_1, y=abund)) +
+a4<-ggplot(data=data, aes(x=index_2, y=abund)) +
   geom_smooth(linewidth=1, span = 2, method = "glm", color = "black") +
   labs(x="Human Disturbance Index", y="Relative abundance (ind/km)") +
   theme_classic() +
@@ -101,13 +101,13 @@ mod1a<-glm(abund~people+boats+pets, na.action = "na.fail", family = "poisson")
 summary(mod1a)
 ```
 
-Here we have a significant effect on "people".
+Here we have a significant effect on "people". Estos resultados se usaron para el ms.
 
 
-Let's use the disturbance index1 instead:
+Let's use the disturbance index2 instead (se usó index2 en el manuscrito):
 
 ```{r model2}
-mod2<-glmer(abund~index_1+(1|site), na.action = "na.fail", family = "poisson")
+mod2<-glm(abund~index_2, na.action = "na.fail", family = "poisson")
 summary(mod2)
 ```
 
