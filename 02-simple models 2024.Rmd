@@ -1,7 +1,7 @@
 ---
 title: "02-GLMM version 2024"
 author: "Francisco E. Fonturbel, Guido Pavez"
-date: "01/Feb/2024"
+date: "25/Jan/2025"
 output: html_document
 ---
 
@@ -101,10 +101,10 @@ mod1a<-glm(abund~people+boats+pets, na.action = "na.fail", family = "poisson")
 summary(mod1a)
 ```
 
-Here we have a significant effect on "people". Estos resultados se usaron para el ms.
+Here we have a significant effect on **people. These results were used in the ms.**
 
 
-Let's use the disturbance index2 instead (se usó index2 en el manuscrito):
+Let's use the disturbance index2 instead (this is what we reported in the ms):
 
 ```{r model2}
 mod2<-glm(abund~index_2, na.action = "na.fail", family = "poisson")
