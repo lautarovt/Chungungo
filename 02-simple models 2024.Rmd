@@ -104,14 +104,14 @@ summary(mod1a)
 Here we have a significant effect on **people. These results were used in the ms.**
 
 
-Let's use the disturbance index2 instead (this is what we reported in the ms):
+Let's use the disturbance index2 instead **this is what we reported in the ms**:
 
 ```{r model2}
 mod2<-glm(abund~index_2, na.action = "na.fail", family = "poisson")
 summary(mod2)
 ```
 
-No effect well.
+Now we do find a coherent result!!! Awesome worl Guido :-)
 
 
 Let's try some multi-model inference to examine the relative support of each variable to our dataset
