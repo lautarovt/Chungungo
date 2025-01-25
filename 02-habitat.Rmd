@@ -106,7 +106,7 @@ hab.nmds.plot<-ggplot() +
         legend.title = element_blank(),
         legend.text = element_text(size = 16))
 hab.nmds.plot
-#Export in landscape mode 7x10
+#Export in landscape mode 5x8
 
 #Obtaining nMDS stress
 hab.mds$stress
