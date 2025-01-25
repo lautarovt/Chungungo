@@ -36,16 +36,16 @@ attach(data)
 
 #ggplot grooming
 My_Theme = theme(
-  axis.title.x = element_text(size = 10),
-  axis.text.x = element_text(size = 10),
-  axis.text.y = element_text(size = 10),
-  axis.title.y = element_text(size = 10),
+  axis.title.x = element_text(size = 16,face="bold"),
+  axis.text.x = element_text(size = 14),
+  axis.text.y = element_text(size = 14),
+  axis.title.y = element_text(size = 16,face="bold"),
   legend.text = element_text(size = 12),
-  legend.title = element_text(size = 12),
+  legend.title = element_text(size = 14,face="bold"),
+  plot.title = element_text(size = 18,face="bold"),
   panel.grid.major = element_blank(),
   panel.grid.minor = element_blank(),
-  panel.background = element_rect(fill = "white"),
-  plot.title = element_text(size = 10,face = "bold", hjust=0.5))
+  panel.background = element_rect(fill = "white"))
 ```
 
 Let's do some nice ggplots to examine our data before fitting fancy models:
@@ -111,7 +111,7 @@ mod2<-glm(abund~index_2, na.action = "na.fail", family = "poisson")
 summary(mod2)
 ```
 
-Now we do find a coherent result!!! Awesome worl Guido :-)
+Now we do find a coherent result!!! Awesome work Guido :-)
 
 
 Let's try some multi-model inference to examine the relative support of each variable to our dataset
