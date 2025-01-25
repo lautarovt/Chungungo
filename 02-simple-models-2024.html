@@ -428,10 +428,10 @@ GLM without random factors:</p>
 ## AIC: 775.11
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
-<p>Here we have a significant effect on “people”. Estos resultados se
-usaron para el ms.</p>
-<p>Let’s use the disturbance index2 instead (se usó index2 en el
-manuscrito):</p>
+<p>Here we have a significant effect on <strong>people. These results
+were used in the ms.</strong></p>
+<p>Let’s use the disturbance index2 instead <strong>this is what we
+reported in the ms</strong>:</p>
 <pre><code>## 
 ## Call:
 ## glm(formula = abund ~ index_2, family = &quot;poisson&quot;, na.action = &quot;na.fail&quot;)
@@ -482,7 +482,7 @@ of each variable to our dataset</p>
 ## attr(,&quot;rank&quot;)
 ## function (x) 
 ## do.call(&quot;rank&quot;, list(x))
-## &lt;environment: 0x12608f758&gt;
+## &lt;environment: 0x134591ab8&gt;
 ## attr(,&quot;call&quot;)
 ## BIC(x)
 ## attr(,&quot;class&quot;)
@@ -500,25 +500,25 @@ Chains</p>
 ##  Thinning interval  = 10
 ##  Sample size  = 1000 
 ## 
-##  DIC: 706.9948 
+##  DIC: 706.6701 
 ## 
 ##  G-structure:  ~site
 ## 
 ##      post.mean l-95% CI u-95% CI eff.samp
-## site    0.4067  0.04251    1.223    553.8
+## site    0.3479  0.05115   0.8144     1000
 ## 
 ##  R-structure:  ~units
 ## 
 ##       post.mean  l-95% CI u-95% CI eff.samp
-## units  0.004604 6.312e-05  0.01682    14.56
+## units 0.0001858 7.155e-07 0.001137    21.72
 ## 
 ##  Location effects: abund ~ people + boats + pets 
 ## 
-##             post.mean  l-95% CI  u-95% CI eff.samp pMCMC  
-## (Intercept)  0.810204  0.276434  1.344309   430.08 0.014 *
-## people      -0.011818 -0.031951  0.012252    11.75 0.196  
-## boats       -0.002413 -0.087531  0.077540    21.76 0.956  
-## pets         0.095030  0.021607  0.161152    33.58 0.012 *
+##             post.mean  l-95% CI  u-95% CI eff.samp  pMCMC    
+## (Intercept)  0.861362  0.391173  1.336406 1075.271  0.006 ** 
+## people      -0.004172 -0.007410  0.001467    7.373  0.378    
+## boats       -0.010089 -0.038413  0.012823    1.785  0.322    
+## pets         0.055305  0.028962  0.073041    3.385 &lt;0.001 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Nothing either.</p>
